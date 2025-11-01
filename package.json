@@ -1,0 +1,22 @@
+{
+  "name": "ts-fp",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "functional library in typescript and javascript",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "fp",
+    "functional programming",
+    "typescript"
+  ],
+  "author": "Veera Kumar AK",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
