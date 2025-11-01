@@ -1,5 +1,5 @@
 {
-  "name": "ts-fp",
+  "name": "ts-fp-utils",
   "version": "1.0.0",
   "type": "module",
   "description": "functional library in typescript and javascript",
