@@ -1,11 +1,13 @@
 {
   "name": "ts-fp-utils",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "description": "functional library in typescript and javascript",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc --project tsconfig.json",
     "prepublishOnly": "npm run build",
