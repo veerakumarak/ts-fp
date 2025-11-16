@@ -5,8 +5,10 @@
   "description": "functional library in typescript and javascript",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": ["dist"],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --project tsconfig.json",
+    "prepublishOnly": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

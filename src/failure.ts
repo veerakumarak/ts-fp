@@ -302,46 +302,46 @@ export class Failure extends Error {
     }
 }
 
-// Example usage:
-(async () => {
-    try {
-        // ✅ Example 1: Success scenario (no failure)
-        const successResult = await Failure.of(() => console.log("Operation successful!"));
-        successResult.ifEmpty(() => console.log("No failure occurred after runnable."));
-        successResult.inspectPresent(() => console.log("This should NOT print (inspectPresent)"));
-        successResult.inspectEmpty(() => console.log("This should print (inspectEmpty)"));
-
-        // ✅ Example 2: Error scenario
-        const errorResult = await Failure.of(() => {
-            throw new Error("Something went wrong!");
-        });
-        errorResult.ifPresent((f) => console.error("Failure occurred:", f.message, f.cause));
-        // errorResult.orThrow(); // Uncomment to rethrow
-
-        // ✅ Example 3: Custom wrapped error
-        const customErrorResult = Failure.wrap("Specific issue", new TypeError("Invalid type provided"));
-        console.log(customErrorResult.message); // Output: Specific issue
-        console.log(customErrorResult.cause); // Output: TypeError: Invalid type provided
-        console.log(customErrorResult.toString()); // Failure{message='Specific issue', cause=TypeError('Invalid type provided')}
-
-        // ✅ Example 4: Nested error unwrapping
-        const nestedError = Failure.wrap("Outer error", Failure.ofMessage("Inner error"));
-        console.log("Nested error (unwrap):", nestedError.unwrap().message); // Output: Inner error
-
-        // ✅ Example 5: Empty instance checks
-        const empty = Failure.empty();
-        console.log("Is empty:", empty.isEmpty()); // true
-        console.log("Is present:", empty.isPresent()); // false
-        console.log("Is equal to EMPTY:", empty.equals(Failure.empty())); // true
-        console.log(empty.toString()); // Output: Failure.EMPTY
-
-        // ✅ Example 6: Subclass usage
-        class NetworkFailure extends Failure {}
-        const netError = new NetworkFailure("Network disconnected");
-        console.log("Is NetworkFailure:", netError.isA(NetworkFailure)); // true
-        console.log("Is general Failure:", netError.isA(Failure)); // true
-
-    } catch (e) {
-        console.error("Caught an error outside of Failure handling:", e);
-    }
-})();
+// // Example usage:
+// (async () => {
+//     try {
+//         // ✅ Example 1: Success scenario (no failure)
+//         const successResult = await Failure.of(() => console.log("Operation successful!"));
+//         successResult.ifEmpty(() => console.log("No failure occurred after runnable."));
+//         successResult.inspectPresent(() => console.log("This should NOT print (inspectPresent)"));
+//         successResult.inspectEmpty(() => console.log("This should print (inspectEmpty)"));
+//
+//         // ✅ Example 2: Error scenario
+//         const errorResult = await Failure.of(() => {
+//             throw new Error("Something went wrong!");
+//         });
+//         errorResult.ifPresent((f) => console.error("Failure occurred:", f.message, f.cause));
+//         // errorResult.orThrow(); // Uncomment to rethrow
+//
+//         // ✅ Example 3: Custom wrapped error
+//         const customErrorResult = Failure.wrap("Specific issue", new TypeError("Invalid type provided"));
+//         console.log(customErrorResult.message); // Output: Specific issue
+//         console.log(customErrorResult.cause); // Output: TypeError: Invalid type provided
+//         console.log(customErrorResult.toString()); // Failure{message='Specific issue', cause=TypeError('Invalid type provided')}
+//
+//         // ✅ Example 4: Nested error unwrapping
+//         const nestedError = Failure.wrap("Outer error", Failure.ofMessage("Inner error"));
+//         console.log("Nested error (unwrap):", nestedError.unwrap().message); // Output: Inner error
+//
+//         // ✅ Example 5: Empty instance checks
+//         const empty = Failure.empty();
+//         console.log("Is empty:", empty.isEmpty()); // true
+//         console.log("Is present:", empty.isPresent()); // false
+//         console.log("Is equal to EMPTY:", empty.equals(Failure.empty())); // true
+//         console.log(empty.toString()); // Output: Failure.EMPTY
+//
+//         // ✅ Example 6: Subclass usage
+//         class NetworkFailure extends Failure {}
+//         const netError = new NetworkFailure("Network disconnected");
+//         console.log("Is NetworkFailure:", netError.isA(NetworkFailure)); // true
+//         console.log("Is general Failure:", netError.isA(Failure)); // true
+//
+//     } catch (e) {
+//         console.error("Caught an error outside of Failure handling:", e);
+//     }
+// })();

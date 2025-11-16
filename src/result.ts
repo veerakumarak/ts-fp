@@ -447,84 +447,84 @@ export function resultOf<T>(supplier: () => T): Promise<Result<T>> {
 }
 
 // --- Example Usage ---
-
-function divide(a: number, b: number): Result<number> {
-    if (b === 0) {
-        return failureResult(Failure.ofMessage("Division by zero is not allowed."));
-    }
-    return okResult(a / b);
-}
-
-console.log("\n--- Basic Usage ---");
-const res1 = divide(10, 2);
-if (res1.isOk()) {
-    res1.ifOk((v) => console.log("Success:", v)); // Success: 5
-} else {
-    res1.ifFailure((f) => console.error("Error:", f.message));
-}
-
-const res2 = divide(10, 0);
-if (res2.isFailure()) {
-    res2.ifFailure((f) => console.error("Error:", f.message)); // Error: Division by zero is not allowed.
-} else {
-    res2.ifOk((v) => console.log("Success:", v));
-}
-
-console.log("\n--- Expect / Get ---");
-try {
-    const val1 = okResult(100).expect("Expected value");
-    console.log("Expected value:", val1); // Expected value: 100
-} catch (e) {
-    console.error("Caught expected error:", (e as Error).message);
-}
-
-console.log("\n--- Defaulting with map/fallback ---");
-const res3 = divide(20, 0);
-const safeValue = res3.isOk() ? res3.get() : 0;
-console.log("Safe value:", safeValue); // 0
-
-console.log("\n--- ifOk / ifFailure / inspect ---");
-okResult("data").ifOk((d) => console.log("IfOk:", d)); // IfOk: data
-failureResult<string>(Failure.ofMessage("Oops")).ifFailure((f) => console.error("IfFailure:", f.message)); // IfFailure: Oops
-
-okResult(123)
-    .inspectOk((v) => console.log("InspectOk value:", v)) // InspectOk value: 123
-    .map((v) => v * 2)
-    .inspectOk((v) => console.log("InspectOk doubled value:", v)); // InspectOk doubled value: 246
-
-failureResult<number>(Failure.ofMessage("Chain broken"))
-    .inspectFailure((f) => console.error("InspectFailure:", f.message)) // InspectFailure: Chain broken
-    .map((v) => v * 2) // skipped
-    .inspectOk(() => console.log("This will not print"));
-
-console.log("\n--- Async Result.of ---");
-(async () => {
-    const safeParse = await resultOf<number>(() => {
-        const num = parseInt("42", 10);
-        if (isNaN(num)) throw new Error("Not a number");
-        return num;
-    });
-
-    safeParse.ifOk((n) => console.log("Safely parsed:", n)); // Safely parsed: 42
-
-    const unsafeParse = await resultOf<number>(() => {
-        throw new Error("Parsing failed intentionally");
-    });
-
-    unsafeParse.ifFailure((f) => console.error("Unsafely parsed error:", f.message)); // Unsafely parsed error: Parsing failed intentionally
-})();
-
-console.log("\n--- Map / FlatMap ---");
-const mappedResult = divide(20, 4)
-    .map((num) => num * 10)
-    .map((num) => `Result is ${num}`);
-mappedResult.ifOk((s) => console.log("Mapped Result:", s)); // Mapped Result: Result is 50
-
-const flatMappedResult = divide(100, 10)
-    .flatMap((num) => divide(num, 2))
-    .flatMap((num) => divide(num, 0));
-flatMappedResult.ifFailure((f) => console.error("FlatMapped Result Error:", f.message));
-
-console.log("\n--- toString ---");
-console.log(okResult({ id: 1, name: "Test" }).toString()); // Result.Ok({"id":1,"name":"Test"})
-console.log(failureResult(Failure.ofMessage("Network error")).toString()); // Result.Failure(Failure{message='Network error'})
+//
+// function divide(a: number, b: number): Result<number> {
+//     if (b === 0) {
+//         return failureResult(Failure.ofMessage("Division by zero is not allowed."));
+//     }
+//     return okResult(a / b);
+// }
+//
+// console.log("\n--- Basic Usage ---");
+// const res1 = divide(10, 2);
+// if (res1.isOk()) {
+//     res1.ifOk((v) => console.log("Success:", v)); // Success: 5
+// } else {
+//     res1.ifFailure((f) => console.error("Error:", f.message));
+// }
+//
+// const res2 = divide(10, 0);
+// if (res2.isFailure()) {
+//     res2.ifFailure((f) => console.error("Error:", f.message)); // Error: Division by zero is not allowed.
+// } else {
+//     res2.ifOk((v) => console.log("Success:", v));
+// }
+//
+// console.log("\n--- Expect / Get ---");
+// try {
+//     const val1 = okResult(100).expect("Expected value");
+//     console.log("Expected value:", val1); // Expected value: 100
+// } catch (e) {
+//     console.error("Caught expected error:", (e as Error).message);
+// }
+//
+// console.log("\n--- Defaulting with map/fallback ---");
+// const res3 = divide(20, 0);
+// const safeValue = res3.isOk() ? res3.get() : 0;
+// console.log("Safe value:", safeValue); // 0
+//
+// console.log("\n--- ifOk / ifFailure / inspect ---");
+// okResult("data").ifOk((d) => console.log("IfOk:", d)); // IfOk: data
+// failureResult<string>(Failure.ofMessage("Oops")).ifFailure((f) => console.error("IfFailure:", f.message)); // IfFailure: Oops
+//
+// okResult(123)
+//     .inspectOk((v) => console.log("InspectOk value:", v)) // InspectOk value: 123
+//     .map((v) => v * 2)
+//     .inspectOk((v) => console.log("InspectOk doubled value:", v)); // InspectOk doubled value: 246
+//
+// failureResult<number>(Failure.ofMessage("Chain broken"))
+//     .inspectFailure((f) => console.error("InspectFailure:", f.message)) // InspectFailure: Chain broken
+//     .map((v) => v * 2) // skipped
+//     .inspectOk(() => console.log("This will not print"));
+//
+// console.log("\n--- Async Result.of ---");
+// (async () => {
+//     const safeParse = await resultOf<number>(() => {
+//         const num = parseInt("42", 10);
+//         if (isNaN(num)) throw new Error("Not a number");
+//         return num;
+//     });
+//
+//     safeParse.ifOk((n) => console.log("Safely parsed:", n)); // Safely parsed: 42
+//
+//     const unsafeParse = await resultOf<number>(() => {
+//         throw new Error("Parsing failed intentionally");
+//     });
+//
+//     unsafeParse.ifFailure((f) => console.error("Unsafely parsed error:", f.message)); // Unsafely parsed error: Parsing failed intentionally
+// })();
+//
+// console.log("\n--- Map / FlatMap ---");
+// const mappedResult = divide(20, 4)
+//     .map((num) => num * 10)
+//     .map((num) => `Result is ${num}`);
+// mappedResult.ifOk((s) => console.log("Mapped Result:", s)); // Mapped Result: Result is 50
+//
+// const flatMappedResult = divide(100, 10)
+//     .flatMap((num) => divide(num, 2))
+//     .flatMap((num) => divide(num, 0));
+// flatMappedResult.ifFailure((f) => console.error("FlatMapped Result Error:", f.message));
+//
+// console.log("\n--- toString ---");
+// console.log(okResult({ id: 1, name: "Test" }).toString()); // Result.Ok({"id":1,"name":"Test"})
+// console.log(failureResult(Failure.ofMessage("Network error")).toString()); // Result.Failure(Failure{message='Network error'})

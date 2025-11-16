@@ -67,42 +67,42 @@ export function wrapExistingFailure(message: string | null | undefined, original
 }
 
 
-// --- Example Usage ---
-console.log("\n--- Failure Helpers Examples ---");
-
-// empty()
-const emptyFail = emptyFailure();
-console.log("Empty Failure:", emptyFail.isEmpty()); // true
-console.log("Empty Failure toString:", emptyFail.toString()); // Failure.EMPTY
-
-// with(message)
-try {
-    const specificFail = failureWithMessage("A user-defined error.");
-    console.log("Specific Failure message:", specificFail.message); // A user-defined error.
-    console.log("Specific Failure isPresent:", specificFail.isPresent()); // true
-
-    // This will throw an IllegalArgument
-    // failureWithMessage("");
-} catch (e) {
-    if (e instanceof IllegalArgument) {
-        console.error("Caught expected error:", e.message); // Caught expected error: Failure message cannot be null...
-    }
-}
-
-// wrap(message, cause)
-const wrappedError = wrapFailure("Something critical failed", new Error("Internal system error."));
-console.log("Wrapped Error message:", wrappedError.message); // Something critical failed
-console.log("Wrapped Error cause:", wrappedError.cause); // Error: Internal system error.
-
-const wrappedStringCause = wrapFailure(null, "Just a string error message.");
-console.log("Wrapped String Cause message:", wrappedStringCause.message); // Just a string error message.
-
-const wrappedNullCause = wrapFailure(null, null);
-console.log("Wrapped Null Cause message:", wrappedNullCause.message); // An unexpected error occurred.
-
-// wrap(message, Failure)
-const originalFail = failureWithMessage("Original login failed");
-const newWrappedFail = wrapExistingFailure("User authentication issue", originalFail);
-console.log("New Wrapped Failure message:", newWrappedFail.message); // User authentication issue
-console.log("New Wrapped Failure cause (should be original Failure):", newWrappedFail.cause === originalFail); // true
-console.log("New Wrapped Failure cause message:", (newWrappedFail.cause as Failure).message); // Original login failed
+// // --- Example Usage ---
+// console.log("\n--- Failure Helpers Examples ---");
+//
+// // empty()
+// const emptyFail = emptyFailure();
+// console.log("Empty Failure:", emptyFail.isEmpty()); // true
+// console.log("Empty Failure toString:", emptyFail.toString()); // Failure.EMPTY
+//
+// // with(message)
+// try {
+//     const specificFail = failureWithMessage("A user-defined error.");
+//     console.log("Specific Failure message:", specificFail.message); // A user-defined error.
+//     console.log("Specific Failure isPresent:", specificFail.isPresent()); // true
+//
+//     // This will throw an IllegalArgument
+//     // failureWithMessage("");
+// } catch (e) {
+//     if (e instanceof IllegalArgument) {
+//         console.error("Caught expected error:", e.message); // Caught expected error: Failure message cannot be null...
+//     }
+// }
+//
+// // wrap(message, cause)
+// const wrappedError = wrapFailure("Something critical failed", new Error("Internal system error."));
+// console.log("Wrapped Error message:", wrappedError.message); // Something critical failed
+// console.log("Wrapped Error cause:", wrappedError.cause); // Error: Internal system error.
+//
+// const wrappedStringCause = wrapFailure(null, "Just a string error message.");
+// console.log("Wrapped String Cause message:", wrappedStringCause.message); // Just a string error message.
+//
+// const wrappedNullCause = wrapFailure(null, null);
+// console.log("Wrapped Null Cause message:", wrappedNullCause.message); // An unexpected error occurred.
+//
+// // wrap(message, Failure)
+// const originalFail = failureWithMessage("Original login failed");
+// const newWrappedFail = wrapExistingFailure("User authentication issue", originalFail);
+// console.log("New Wrapped Failure message:", newWrappedFail.message); // User authentication issue
+// console.log("New Wrapped Failure cause (should be original Failure):", newWrappedFail.cause === originalFail); // true
+// console.log("New Wrapped Failure cause message:", (newWrappedFail.cause as Failure).message); // Original login failed
